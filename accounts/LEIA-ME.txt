@@ -1,0 +1,50 @@
+COMO LIGAR ESTE RASCUNHO NO SEU PROJETO DJANGO
+================================================
+
+1. Se ainda não existe, crie o app:
+   python manage.py startapp accounts
+
+2. Copie estes arquivos para dentro da pasta accounts/ do seu projeto,
+   substituindo forms.py, views.py e urls.py, e criando a pasta
+   templates/accounts/ com os 3 arquivos .html.
+
+3. No settings.py do projeto, adicione "accounts" em INSTALLED_APPS
+   e, no final do arquivo, adicione:
+
+   LOGIN_URL = "login"
+   LOGIN_REDIRECT_URL = "dashboard"
+
+4. No urls.py principal do projeto, inclua as rotas do app:
+
+   from django.urls import path, include
+
+   urlpatterns = [
+       ...
+       path("", include("accounts.urls")),
+   ]
+
+5. Rode as migrations (o model User já existe no Django, mas as
+   tabelas de autenticação padrão precisam estar criadas):
+
+   python manage.py migrate
+
+6. Rode o servidor e teste:
+
+   python manage.py runserver
+
+   Acesse /registrar/ para criar uma conta e /login/ para entrar.
+
+O QUE ESTE RASCUNHO JÁ COBRE
+-----------------------------
+- Registro de usuário (nome de usuário, email, senha com confirmação)
+- Erros tratados: usuário duplicado, email duplicado, senhas diferentes,
+  senha curta, usuário/senha incorretos no login
+- Login e logout usando o sistema de autenticação do próprio Django
+- Proteção de rota (dashboard só abre se o usuário estiver logado)
+
+O QUE FICA PARA DEPOIS (com calma)
+-----------------------------------
+- Trocar o User padrão por um modelo próprio, se quiser mais campos
+- Adicionar o 2FA (verificação em duas etapas)
+- Login com conta Google
+- Estilizar os templates (hoje estão sem CSS, só para funcionar)
