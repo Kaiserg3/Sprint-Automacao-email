@@ -1,0 +1,25 @@
+<h2>Envios registrados</h2>
+
+{% if messages %}
+  <ul>{% for message in messages %}<li>{{ message }}</li>{% endfor %}</ul>
+{% endif %}
+
+<p><a href="{% url 'envio_create' %}">+ Novo envio</a> | <a href="{% url 'contato_list' %}">Ver contatos</a></p>
+
+<table border="1" cellpadding="6" cellspacing="0">
+  <tr><th>Contato</th><th>Assunto</th><th>Status</th><th>Data</th><th>Ações</th></tr>
+  {% for e in envios %}
+    <tr>
+      <td>{{ e.contato.nome }}</td>
+      <td>{{ e.assunto }}</td>
+      <td>{{ e.get_status_display }}</td>
+      <td>{{ e.data_envio|date:"d/m/Y H:i" }}</td>
+      <td>
+        <a href="{% url 'envio_update' e.pk %}">Editar</a> |
+        <a href="{% url 'envio_delete' e.pk %}">Excluir</a>
+      </td>
+    </tr>
+  {% empty %}
+    <tr><td colspan="5">Nenhum envio registrado ainda.</td></tr>
+  {% endfor %}
+</table>

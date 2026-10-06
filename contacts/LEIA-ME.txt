@@ -1,0 +1,87 @@
+COMO LIGAR ESTE RASCUNHO NO SEU PROJETO DJANGO
+================================================
+
+Pré-requisito: o app "accounts" (login/registro) já precisa estar instalado,
+porque estas views usam @login_required e o usuário logado (request.user).
+
+1. Copie a pasta contacts/ inteira para dentro do seu projeto.
+
+2. No settings.py, adicione "contacts" em INSTALLED_APPS (depois de "accounts").
+
+3. No urls.py principal do projeto, inclua a rota:
+
+   path("", include("contacts.urls")),
+
+4. Gere e rode as migrations (isso cria as tabelas Contato e Envio no banco):
+
+   python manage.py makemigrations contacts
+   python manage.py migrate
+
+5. Rode o servidor e teste:
+
+   python manage.py runserver
+
+   Acesse /contatos/ e /envios/ (logado).
+
+O QUE ESTE RASCUNHO JÁ COBRE
+-----------------------------
+- CRUD completo de Contato (criar, listar, editar, excluir)
+- CRUD completo de Envio (criar, listar, editar, excluir), relacionado 1:N ao Contato
+- Cada usuário só vê e edita os próprios dados (testado)
+- Ao excluir um Contato, os Envios relacionados também são excluídos (CASCADE)
+
+TESTADO
+-------
+Rodei o fluxo completo num projeto Django limpo: criar contato, editar,
+criar envio vinculado, listar, isolamento entre dois usuários diferentes
+(um não vê nem edita dados do outro, nem digitando a URL direto), e exclusão
+em cascata. Os 8 cenários passaram.
+
+
+COMO ORGANIZAR AS ISSUES DESSA SPRINT
+=======================================
+
+O professor pediu uma estrutura de 2 níveis: issues "new feature" (uma por
+funcionalidade, com User Story) e, dentro de cada uma, issues "task" (as
+atividades técnicas). O GitHub não tem "sub-issues" nativas simples em todas
+as contas, então a forma mais comum é: criar a issue de feature, e linkar as
+tasks a ela escrevendo "Parte de #<número da issue>" na descrição de cada task.
+
+1. Milestone: Issues → Milestones → New milestone
+   Title: Sprint - CRUD de Contatos e Envios
+   Description: cole o Sprint Goal do enunciado.
+
+2. Issue "new feature" 1 — título: `[Feature] CRUD de Contatos`
+   Descrição (User Story):
+   Como usuário do sistema, quero cadastrar, listar, editar e excluir
+   contatos, para manter minha lista de prospecção sempre atualizada.
+
+   Depois de criada, copie o link dela e cole no seu Documento de Requisitos,
+   na User Story "Gerenciamento de Contatos (CRUD)".
+
+3. Issue "new feature" 2 — título: `[Feature] CRUD de Envios`
+   Descrição (User Story):
+   Como usuário do sistema, quero registrar, listar, editar e excluir
+   envios de email vinculados a um contato, para acompanhar o histórico
+   de prospecção de cada contato.
+
+4. Issues "task", associadas à Milestone (e citando "Parte de #1" ou "Parte de #2"
+   na descrição, trocando pelo número de cada issue de feature):
+   - `[Task] Modelo de dados (Contato e Envio)`
+   - `[Task] Views e formulários de Contato`
+   - `[Task] Views e formulários de Envio`
+   - `[Task] Templates das telas de Contato e Envio`
+   - (opcional) `[Task] Testes do CRUD`
+
+5. Feche as tasks e as features conforme for implementando/subindo o código.
+
+
+SOBRE O VÍDEO
+--------------
+O enunciado pede entre 8 e 16 minutos no total, explicando:
+- o modelo de dados (a relação Contato 1:N Envio — pode mostrar o models.py
+  e, se quiser, o diagrama ER que já fizemos no Documento de Requisitos),
+- o código da implementação (forms.py e views.py, explicando create/read/
+  update/delete de cada um),
+- a funcionalidade final rodando (criar um contato, criar um envio para ele,
+  editar, excluir, mostrando que funciona na tela).

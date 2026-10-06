@@ -1,0 +1,24 @@
+<h2>Meus contatos</h2>
+
+{% if messages %}
+  <ul>{% for message in messages %}<li>{{ message }}</li>{% endfor %}</ul>
+{% endif %}
+
+<p><a href="{% url 'contato_create' %}">+ Novo contato</a> | <a href="{% url 'envio_list' %}">Ver envios</a></p>
+
+<table border="1" cellpadding="6" cellspacing="0">
+  <tr><th>Nome</th><th>Email</th><th>Status</th><th>Ações</th></tr>
+  {% for c in contatos %}
+    <tr>
+      <td>{{ c.nome }}</td>
+      <td>{{ c.email }}</td>
+      <td>{{ c.get_status_display }}</td>
+      <td>
+        <a href="{% url 'contato_update' c.pk %}">Editar</a> |
+        <a href="{% url 'contato_delete' c.pk %}">Excluir</a>
+      </td>
+    </tr>
+  {% empty %}
+    <tr><td colspan="4">Nenhum contato cadastrado ainda.</td></tr>
+  {% endfor %}
+</table>

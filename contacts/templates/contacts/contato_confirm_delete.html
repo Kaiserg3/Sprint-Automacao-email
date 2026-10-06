@@ -1,0 +1,10 @@
+<h2>Excluir contato</h2>
+
+<p>Tem certeza que deseja excluir "{{ contato.nome }}"? Os envios registrados para ele também serão excluídos.</p>
+
+<form method="post">
+  {% csrf_token %}
+  <button type="submit">Confirmar exclusão</button>
+</form>
+
+<a href="{% url 'contato_list' %}">Cancelar</a>
